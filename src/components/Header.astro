@@ -1,0 +1,20 @@
+---
+import Nav from "../components/Nav.astro"
+
+const { class: className } = Astro.props
+---
+
+<header class:list={["header", className]}>
+	<Nav />
+</header>
+
+<style lang="scss">
+	@use "../scss/functions" as *;
+	@use "../scss/mixins" as *;
+	@use "../scss/helpers" as *;
+
+	.header {
+		@extend %container;
+		padding-block: fluid-rem(1.5rem, 5rem) fluid-rem(2rem, 3rem);
+	}
+</style>

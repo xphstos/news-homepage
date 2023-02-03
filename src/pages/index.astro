@@ -1,0 +1,94 @@
+---
+import FeaturedPost from "../components/FeaturedPost.astro"
+import Header from "../components/Header.astro"
+import LatestNews from "../components/LatestNews.astro"
+import Posts from "../components/Posts.astro"
+import Layout from "../layouts/Layout.astro"
+// import Card from "../components/Card.astro"
+
+interface IPosts {
+	image: string
+	imageMobile: string
+	title: string
+	description: string
+}
+
+type latestPostsType = Omit<IPosts, "image" | "imageMobile">
+type postsType = Omit<IPosts, "imageMobile">
+
+const featuredPost: IPosts = {
+	image: "/images/image-web-3-desktop.jpg",
+	imageMobile: "/images/image-web-3-mobile.jpg",
+	title: "The Bright Future of Web 3.0?",
+	description:
+		"We dive into the next evolution of the web that claims to put the power of the platforms back into the hands of the people. But is it really fulfilling its promise?"
+}
+
+const latestPosts: latestPostsType[] = [
+	{
+		title: "Hydrogen VS Electric Cars",
+		description: "Will hydrogen-fueled cars ever catch up to EVs?"
+	},
+	{
+		title: "The Downsides of AI Artistry",
+		description:
+			"What are the possible adverse effects of on-demand AI image generation?"
+	},
+	{
+		title: "Is VC Funding Drying Up?",
+		description:
+			"Private funding by VC firms is down 50% YOY. We take a look at what that means."
+	}
+]
+
+const posts: postsType[] = [
+	{
+		image: "/images/image-retro-pcs.jpg",
+		title: "Reviving Retro PCs",
+		description: "What happens when old PCs are given modern upgrades?"
+	},
+	{
+		image: "/images/image-top-laptops.jpg",
+		title: "Top 10 Laptops of 2022",
+		description: "Our best picks for various needs and budgets."
+	},
+	{
+		image: "/images/image-gaming-growth.jpg",
+		title: "The Growth of Gaming",
+		description: "How the pandemic has sparked fresh opportunities."
+	}
+]
+---
+
+<Layout title="Frontend Mentor | News homepage">
+	<Header />
+	<main>
+		<section class="blog">
+			<FeaturedPost
+				featuredPost={featuredPost}
+				class="blog__featured"
+			/>
+			<LatestNews
+				class="blog__latest"
+				latestPosts={latestPosts}
+			/>
+			<Posts
+				posts={posts}
+				class="blog__posts"
+			/>
+		</section>
+	</main>
+</Layout>
+
+<style lang="scss">
+	@use "../scss/functions" as *;
+	@use "../scss/mixins" as *;
+	@use "../scss/helpers" as *;
+
+	.blog {
+		@extend %container;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+		gap: fluid-rem(2rem, 4.5rem) 2rem;
+	}
+</style>

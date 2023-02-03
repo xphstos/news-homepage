@@ -1,0 +1,92 @@
+---
+const {
+	featuredPost,
+	class: { className }
+} = Astro.props
+---
+
+<article class:list={["featured", className]}>
+	<picture class="featured__image">
+		<source
+			srcset={featuredPost.imageMobile}
+			media="(max-width: 927px)"
+		/>
+		<img
+			src={featuredPost.image}
+			alt={featuredPost.title}
+		/>
+	</picture>
+	<header class="featured__header">
+		<h1 class="featured__title">{featuredPost.title}</h1>
+		<p class="featured__description">{featuredPost.description}</p>
+		<a
+			href="#"
+			class="featured__cta"
+			>Read More</a
+		>
+	</header>
+</article>
+
+<style lang="scss">
+	@use "../scss/functions" as *;
+	@use "../scss/mixins" as *;
+	@use "../scss/helpers" as *;
+
+	.featured {
+		@media (width >= 928px) {
+			grid-column: span 2;
+		}
+
+		&__header {
+			margin-block-start: 2rem;
+
+			@media (width >= 928px) {
+				display: grid;
+				grid-template-columns: repeat(
+					auto-fit,
+					minmax(#{fluid-rem(15rem, 20rem)}, 1fr)
+				);
+				gap: fluid-rem(2rem, 4.5rem) 2rem;
+			}
+		}
+
+		&__title {
+			grid-row: span 2;
+			font-size: fluid-rem(2.5rem, 3.5rem);
+			line-height: 1;
+			font-weight: 900;
+			color: v("neutral-800");
+
+			@media (width >= 624px) {
+				width: min(9ch, 100%);
+			}
+		}
+
+		&__description {
+			line-height: 1.5;
+			color: v("neutral-600");
+
+			@media (width < 928px) {
+				margin-block: 2em;
+			}
+		}
+
+		&__cta {
+			display: inline-block;
+			text-align: center;
+			justify-self: start;
+			text-transform: uppercase;
+			padding: 1em 2em;
+			line-height: 1;
+			letter-spacing: 0.25em;
+			color: v("white");
+			background-color: v("red");
+			font-weight: 800;
+			transition: background-color 0.2s ease;
+
+			&:hover {
+				background-color: v("neutral-800");
+			}
+		}
+	}
+</style>

@@ -1,0 +1,136 @@
+---
+import Logo from "../assets/images/logo.svg"
+import Menu from "./Menu.astro"
+
+const { class: className } = Astro.props
+---
+
+<nav class:list={["nav", className]}>
+	<a
+		href="/"
+		class="nav__homelink homelink"
+	>
+		<img
+			class="homelink__icon"
+			src={Logo}
+			alt=""
+		/>
+	</a>
+	<Menu class="nav__menu" />
+	<button class="nav__mobile-toggler mobile-toggler">
+		<svg
+			width="40"
+			height="17"
+			xmlns="http://www.w3.org/2000/svg"
+			class="mobile-toggler__icon mobile-toggler__icon--menu"
+		>
+			<g
+				fill="currentColor"
+				fill-rule="evenodd"
+			>
+				<path d="M0 0h40v3H0zM0 7h40v3H0zM0 14h40v3H0z"></path>
+				<path d="M0 0h40v3H0z"></path>
+			</g>
+		</svg>
+		<svg
+			width="32"
+			height="31"
+			xmlns="http://www.w3.org/2000/svg"
+			class="mobile-toggler__icon mobile-toggler__icon--close"
+		>
+			<g
+				fill="currentColor"
+				fill-rule="evenodd"
+			>
+				<path d="m2.919.297 28.284 28.284-2.122 2.122L.797 2.419z"
+				></path>
+				<path d="M.797 28.581 29.081.297l2.122 2.122L2.919 30.703z"
+				></path>
+			</g>
+		</svg>
+	</button>
+</nav>
+
+<script>
+	const mobileToggler = document.querySelector(".mobile-toggler")
+	const nav = document.querySelector("nav.nav")
+
+	const mobileToggle = (e) => {
+		nav.classList.toggle("nav--is-open", e.target.checked)
+		mobileToggler.classList.toggle(
+			"mobile-toggler--is-open",
+			e.target.checked
+		)
+	}
+
+	mobileToggler.addEventListener("click", mobileToggle)
+</script>
+
+<style lang="scss">
+	@use "../scss/functions" as *;
+	@use "../scss/mixins" as *;
+	@use "../scss/helpers" as *;
+
+	.nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1em;
+
+		&--is-open {
+			@media (width < 608px) {
+				.nav__menu {
+					display: grid;
+					transform: translateX(0);
+					box-shadow: 0 0 50vmax 50vmax hsl(0deg 0% 0% / 0.5);
+				}
+			}
+		}
+
+		&__homelink {
+			display: block;
+			flex: 0 0 4rem;
+		}
+
+		&__menu {
+			margin-inline-start: auto;
+		}
+
+		&__mobile-toggler {
+			@media (width >= 608px) {
+				display: none;
+			}
+		}
+	}
+
+	.mobile-toggler {
+		@include size(2.5rem);
+		padding: 0;
+		margin: 0;
+		border: 0;
+		background: none;
+		cursor: pointer;
+		z-index: v("z-toggler");
+
+		&__input {
+			@extend %sr-only;
+		}
+
+		svg {
+			fill: red;
+		}
+
+		.mobile-toggler__icon--close {
+			display: none;
+		}
+
+		&--is-open {
+			.mobile-toggler__icon--menu {
+				display: none;
+			}
+			.mobile-toggler__icon--close {
+				display: inherit;
+			}
+		}
+	}
+</style>

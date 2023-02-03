@@ -1,0 +1,10 @@
+@forward "./fonts";
+@forward "./variables";
+@forward "./reset";
+@forward "./external";
+@forward "./custom_defaults";
+@forward "./typography";
+
+body {
+	font: 400 1rem / 1.333 "Inter", sans-serif;
+}

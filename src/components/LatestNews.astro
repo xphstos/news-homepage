@@ -1,0 +1,80 @@
+---
+const {
+	latestPosts,
+	class: { className }
+} = Astro.props
+---
+
+<aside class:list={["latest-news", className]}>
+	<h2 class="latest-news__title">New</h2>
+	{
+		latestPosts.map(({ title, description }, i) => (
+			<article class="latest">
+				<h3 class="latest__title">
+					<a
+						class="latest__link"
+						href={`#${i}`}
+					>
+						{title}
+					</a>
+				</h3>
+				<p class="latest__description">{description}</p>
+			</article>
+		))
+	}
+</aside>
+
+<style lang="scss">
+	@use "../scss/functions" as *;
+	@use "../scss/mixins" as *;
+	@use "../scss/helpers" as *;
+
+	.latest-news {
+		align-self: start;
+		padding: 2rem 1.5rem;
+		background-color: v("neutral-800");
+
+		&__title {
+			font-size: fluid-rem(2rem, 2.5rem);
+			color: v("orange");
+			line-height: 1;
+			margin-block: 0 2.5rem;
+		}
+	}
+
+	.latest {
+		position: relative;
+
+		&:hover {
+			.latest__title {
+				color: v("red");
+			}
+		}
+
+		+ .latest {
+			margin-block-start: 2rem;
+			padding-block-start: 2rem;
+			border-top: 1px solid v("neutral-600");
+		}
+
+		&__link {
+			&::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+			}
+		}
+
+		&__title {
+			color: v("neutral-200");
+			font-size: 1.25rem;
+			margin-block: 0 1em;
+			transition: color 0.2s ease;
+		}
+
+		&__description {
+			color: v("neutral-400");
+			line-height: 1.5;
+		}
+	}
+</style>

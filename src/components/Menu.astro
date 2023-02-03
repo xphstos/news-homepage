@@ -1,0 +1,96 @@
+---
+const { class: className } = Astro.props
+
+const menuLinks = [
+	{
+		label: "Home",
+		url: "/"
+	},
+	{
+		label: "New",
+		url: "/"
+	},
+	{
+		label: "Popular",
+		url: "/"
+	},
+	{
+		label: "Trending",
+		url: "/"
+	},
+	{
+		label: "Categories",
+		url: "/"
+	}
+]
+---
+
+<menu class:list={["menu", className]}>
+	{
+		menuLinks.map(({ label, url }, i) => (
+			<li class="menu__item">
+				<a
+					href={url}
+					class="menu__link"
+				>
+					{label}
+				</a>
+			</li>
+		))
+	}
+</menu>
+
+<style lang="scss">
+	@use "../scss/functions" as *;
+	@use "../scss/mixins" as *;
+	@use "../scss/helpers" as *;
+
+	.menu {
+		padding: 0;
+		list-style-type: none;
+		display: flex;
+		align-items: center;
+		margin: 0;
+
+		@media (width < 608px) {
+			display: grid;
+			grid-template-columns: 1fr;
+			place-content: center start;
+			position: fixed;
+			z-index: 100%;
+			top: 0;
+			right: 0;
+			width: 70vw;
+			height: 100vh;
+			height: 100dvh;
+			background-color: v("white");
+			z-index: v(z-menu);
+			transform: translateX(100%);
+			transition: box-shadow 0.2s ease 0.2s, transform 0.2s ease-in-out;
+		}
+
+		&__item {
+			&:last-child {
+				.menu__link {
+					padding-inline-end: 0;
+				}
+			}
+		}
+
+		&__link {
+			padding: 1rem 1.25rem;
+			color: v("neutral-600");
+			transition: color 0.2s ease;
+
+			&:hover {
+				color: v("red");
+			}
+
+			@media (width < 608px) {
+				display: block;
+				font-size: 1.125rem;
+				padding: 1rem 2rem;
+			}
+		}
+	}
+</style>

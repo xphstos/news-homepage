@@ -1,0 +1,111 @@
+---
+const {
+	posts,
+	class: { className }
+} = Astro.props
+---
+
+<div class:list={["posts", className]}>
+	{
+		posts.map(({ image, title, description }, i) => (
+			<article class="post">
+				<picture class="post__image">
+					<img
+						src={image}
+						alt={title}
+					/>
+				</picture>
+				<header class="post__header">
+					<h3 class="post__title">
+						<a
+							class="post__link"
+							href={`#${i}`}
+						>
+							{title}
+						</a>
+					</h3>
+					<p class="post__description">{description}</p>
+				</header>
+			</article>
+		))
+	}
+</div>
+
+<style lang="scss">
+	@use "../scss/functions" as *;
+	@use "../scss/mixins" as *;
+	@use "../scss/helpers" as *;
+
+	.posts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+		gap: 2em;
+		counter-reset: posts;
+
+		@media (width >= 624px) {
+			grid-column: span 2;
+		}
+
+		@media (width >= 928px) {
+			grid-column: span 3;
+		}
+	}
+
+	.post {
+		display: grid;
+		grid-template-columns: 6.25rem auto;
+		gap: 1rem;
+		position: relative;
+
+		&:hover {
+			.post__title {
+				color: v("red");
+			}
+		}
+
+		&__image {
+			img {
+				@media (width < 520px) {
+					width: 100%;
+					height: 100%;
+					object-position: center;
+					object-fit: cover;
+				}
+			}
+		}
+
+		&__link {
+			&::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+			}
+		}
+
+		&__header {
+			counter-increment: posts;
+
+			&::before {
+				content: counter(posts, decimal-leading-zero);
+				display: block;
+				font-weight: 800;
+				font-size: 2rem;
+				line-height: 1;
+				padding-block-end: 0.75rem;
+				color: v("neutral-400");
+			}
+		}
+
+		&__title {
+			font-size: 1.125rem;
+			font-weight: 800;
+			margin-bottom: 0.75rem;
+			transition: color 0.2s ease;
+		}
+
+		&__description {
+			line-height: 1.5;
+			color: v("neutral-600");
+		}
+	}
+</style>
